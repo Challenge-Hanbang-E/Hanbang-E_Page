@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+
+    <title>주문 상세 조회</title>
+    <style>
+        @font-face {
+				    font-family: 'twayair';
+				    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_tway@1.0/twayair.woff') format('woff');
+				    font-weight: normal;
+				    font-style: normal;
+				}
+				
+				@font-face {
+					  font-family: 'S-CoreDream-3Light';
+				    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-3Light.woff') format('woff');
+				    font-weight: normal;
+			      font-style: normal;
+				}
+    
+        :root {
+            --color-point-1: #4987F2;
+            --color-point-2: #6A6A6A;
+            --font-point: twayair;
+            --font-basic: S-CoreDream-3Light;
+        }
+
+        main {
+            min-height: 600px;
+        }
+        .container {
+            margin: 0px 80px 0px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 40px 400px;
+
+            row-gap: 30px;
+        }
+
+        .search {
+            grid-column: 1 / 3;
+            grid-row: 1 / 2;
+        }
+
+        .product-img {
+            border: 2px solid gainsboro;   
+            border-radius: 15px;         
+        }
+        
+        .product-img > img {
+            width: 90%;
+            height: 90%;
+            object-fit: cover;
+
+            /* 이미지 위치 */
+            position: relative;
+            top: 50%; 
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .product-info {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            margin: 0px 40px 0px;
+        }
+
+        .product-brand-name {
+            color: blue;
+        }
+
+        .prodict-name {
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        .product-info > .product-price {
+            font-size: 20px;
+            font-weight: bold;
+            color: #cb1400;
+        }
+        
+        .quantity {
+            width: 200px;
+            height: 40px;
+        }
+
+        .product-order {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+        }
+        .product-order > button {
+            display: block;
+            float: left;
+            cursor: pointer;
+            position: relative;
+            line-height: 40px;
+            width: 48%;
+            height: 42px;
+            background: transparent;
+            text-align: center;
+            font-weight: bold;
+            font-size: 16px;
+            border: 1px solid #346aff;
+            color: #346aff;
+        }
+
+        .product-order > .order-Btn {
+            background-color: #346aff;
+            color: white;
+        }
+
+</style>
+</head>
+<body>
+    <header>
+        <div>
+            <img src="/static/img/logo.png" alt="한방에 로고", width="300px", style="object-fit: fill;">
+        </div>
+    </header>
+    <main>
+        <div class="container">
+            <div class="search">
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" placeholder="찾고싶은 상품을 검색해주세요!" aria-label="Recipient's username" aria-describedby="button-addon2">
+                    <button class="btn btn-outline-secondary" type="button" id="button-addon2">검색하기</button>
+                  </div>
+            </div>
+            <div class="product-img">
+                <img src=https://cdn.011st.com/11dims/resize/600x600/quality/75/11src/product/3937841236/B.jpg?889000000">
+            </div>
+            <div class="product-info">
+                <div>
+                    <div class="product-brand-name">apple</div>
+                    <div class="prodict-name">Apple 2020 맥북 에어</div>
+                </div>
+                <div class="product-price">1,236,000원</div>
+                <div class="product-description">상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명</div>
+                <div class="order-quantity">
+                    <div class="input-group quantity">
+                        <input type="text" class="form-control" value="1" maxlength="10">
+                        <button class="btn btn-outline-secondary" type="button">+</button>
+                        <button class="btn btn-outline-secondary" type="button">-</button>
+                    </div>
+                </div>
+                <div class="product-order">
+                    <button>장바구니 담기</button>
+                    <button class="order-Btn">바로주문</button>
+                </div>
+            </div>
+        </div>
+    </main> 
+    <footer></footer>
+</body>
+</html>
