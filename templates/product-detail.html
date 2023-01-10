@@ -7,6 +7,7 @@
 
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
     <title>주문 상세 조회</title>
     <style>
@@ -54,9 +55,9 @@
         }
         
         .product-img > img {
-            width: 90%;
-            height: 90%;
-            object-fit: cover;
+            width: 95%;
+            height: 95%;
+            object-fit: contain;
 
             /* 이미지 위치 */
             position: relative;
@@ -117,43 +118,105 @@
             background-color: #346aff;
             color: white;
         }
-
 </style>
+<script>
+    $(document).ready(function () {
+        listing();
+    });
+
+    const origin = "http://localhost:8080/api/"
+
+    let qs = window.location.search;
+    let productID = qs.split("=")[1];
+
+    function listing() {
+        let productName = document.querySelector(".prodict-name");
+        let productPridce = document.querySelector(".product-price");
+        let productImg = document.querySelector("product-img-source");
+
+        console.log(origin + 'product/details/' + productID)
+        $.ajax({
+            type: 'GET',
+            url: origin + 'product/details/' + productID,
+            data: {},
+            success: function (response) {
+                let rows = response['data']
+                console.log(rows)
+
+                productName.innerText = rows['name'];
+                productPridce.innerText = rows['price'].toLocaleString() + " 원";
+                $(`.product-img > img`).attr({ src: rows['productimg'] });
+            }
+        })
+    }
+
+    function searchProduct() {
+        let keyword = document.getElementById("keyword").value
+        location.href='index.html?search=' + keyword;
+    }
+
+    function doOrder() {
+        let currentQuantity = document.getElementById("quantity").value
+
+        $.ajax({
+            type: 'POST',
+            url: origin + 'order?productId=' + productID,
+            contentType: "application/json; charset=UTF-8",
+            data: JSON.stringify({quantity: currentQuantity}),
+            success: function(response) {
+                alert('주문 성공')
+                window.location.reload();
+            }
+        })
+    }
+
+    function goToMain() {
+        location.href='index.html'
+    }
+
+
+    function orderMoreProduct() {
+        document.getElementById("quantity").stepUp();
+        console.log(document.getElementById("quantity").value);
+    }
+
+    function orderLessProduct() {
+        if (document.getElementById("quantity").value > 1) {
+            document.getElementById("quantity").stepDown();
+        } 
+    }
+</script>
 </head>
 <body>
     <header>
-        <div>
-            <img src="/static/img/logo.png" alt="한방에 로고", width="300px", style="object-fit: fill;">
+        <div onclick="goToMain()">
+            <img id="mainLogo" src="/static/img/logo.png" alt="한방에 로고", width="300px", style="object-fit: fill;">
         </div>
     </header>
     <main>
         <div class="container">
             <div class="search">
                 <div class="input-group mb-3">
-                    <input type="text" class="form-control" placeholder="찾고싶은 상품을 검색해주세요!" aria-label="Recipient's username" aria-describedby="button-addon2">
-                    <button class="btn btn-outline-secondary" type="button" id="button-addon2">검색하기</button>
+                    <input type="text" class="form-control" id="keyword" placeholder="찾고싶은 상품을 검색해주세요!" aria-label="Recipient's username" aria-describedby="button-addon2">
+                    <button class="btn btn-outline-secondary" type="button" id="button-addon2" onclick="searchProduct()">검색하기</button>
                   </div>
             </div>
             <div class="product-img">
-                <img src=https://cdn.011st.com/11dims/resize/600x600/quality/75/11src/product/3937841236/B.jpg?889000000">
+                <img>
             </div>
             <div class="product-info">
-                <div>
-                    <div class="product-brand-name">apple</div>
-                    <div class="prodict-name">Apple 2020 맥북 에어</div>
-                </div>
-                <div class="product-price">1,236,000원</div>
-                <div class="product-description">상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명상품설명</div>
+                <div class="prodict-name"></div>
+                <div class="product-price"></div>
                 <div class="order-quantity">
                     <div class="input-group quantity">
-                        <input type="text" class="form-control" value="1" maxlength="10">
-                        <button class="btn btn-outline-secondary" type="button">+</button>
-                        <button class="btn btn-outline-secondary" type="button">-</button>
+                        <input type="number" class="form-control" id="quantity" value="1" max="10">
+                        <button class="btn btn-outline-secondary" id="quantity-more" type="button" onclick="orderMoreProduct()">+</button>
+                        <button class="btn btn-outline-secondary" id="quantity-less" type="button" onclick="orderLessProduct()">-</button>
                     </div>
                 </div>
                 <div class="product-order">
                     <button>장바구니 담기</button>
-                    <button class="order-Btn">바로주문</button>
+                    <button class="order-Btn" onclick="doOrder()">바로주문</button>
                 </div>
             </div>
         </div>
