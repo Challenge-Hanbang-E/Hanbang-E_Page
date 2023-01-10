@@ -1,0 +1,67 @@
+:root {
+    --color-point-1: #3E6EF4;
+    --color-point-2: #6A6A6A;
+    --color-point-3: #F4F4F4;
+    --color-point-4: #ECF0FE;
+    --font-point: twayair;
+    --font-basic: S-CoreDream-3Light;
+}
+
+.main-container {
+    width: 60vw;
+    height: 80vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+}
+
+.img-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+
+.input-container {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+input {
+    margin-top: 7px;
+    width: 270px;
+    height: 30px;
+    font-size: 15px;
+    border: none;
+    border-bottom: 1px solid var(--color-point-2);
+}
+
+.main-button {
+    width: 120px;
+    height: 34px;
+
+    font-size: 16px;
+    margin-top: 40px;
+
+    background: white;
+    color: var(--color-point-1);
+
+    border: 1px ridge var(--color-point-1);
+    border-radius: 5px;
+}
+
+button:hover {
+    background: var(--color-point-4);
+}
+
+.sub-button {
+    margin-top: 15px;
+}
+
+.sub-button:hover {
+    background: var(--color-point-4);
+}
