@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <style>
         @font-face {
             font-family: 'twayair';
@@ -32,8 +33,6 @@
             min-width: 800px;
             max-width: 950px;
 
-            height: 100%;
-            min-height: 1000px;
             background-color: white;
 
             position: absolute;
@@ -72,9 +71,6 @@
             width: 100%;
             height: 90%;
             background: white;
-
-            overflow: scroll;
-
         }
 
         .order-box {
@@ -116,14 +112,22 @@
         }
 
         .product-detail-box > img {
-            margin: 10px 7% 10px 20px;
-            height: 150px;
+            margin: 20px 4% 20px 20px;
+            height: 130px;
+        }
+
+        .product-box {
+            display: flex;
+            flex: 1;
+            align-items: center;
+
+            width: 70%;
         }
 
         .product-info {
             display: flex;
             flex-direction: column;
-            width: 85%;
+            width: 60%;
 
         }
 
@@ -131,8 +135,21 @@
             margin-bottom: 10px;
         }
 
+        .product-info > span:hover {
+            color: var(--color-point-1);
+        }
+
+        .order {
+            color: var(--color-point-2);
+            boder: 1px;
+        }
+
+        .order-price {
+            margin-left: 10%;
+        }
+
         button {
-            width: 150px;
+            width: 105px;
             height: 30px;
 
             background: white;
@@ -141,64 +158,84 @@
             border: 1px ridge var(--color-point-1);
             border-radius: 5px;
 
-            margin-right: 6%;
+            margin-right: 5%;
         }
 
         button:hover {
             background: var(--color-point-4);
         }
     </style>
+    <script>
+        const origin = "http://localhost:8080/api/";
+
+        $(document).ready(function set() {
+            $.ajax({
+                type: "GET",
+                url: origin + "order/list",
+                data: {},
+                success: function (response) {
+                    let orderList = response.data;
+
+                    for (let i = 0; i < orderList.length; i++) {
+                        let orderId = orderList[i].orderId;
+                        let orderDate = orderList[i].orderDate.split("T")[0].replaceAll("-", ".")
+                        let productId = orderList[i].productId;
+                        let productName = orderList[i].productName;
+                        let img = orderList[i].img;
+                        let productPrice = orderList[i].productPrice.toLocaleString();
+                        let quantity = orderList[i].quantity.toLocaleString();
+                        let totalPrice = orderList[i].totalPrice.toLocaleString();
+
+                        let html = `<div class="order-box">
+                                    <div class="date-box">${orderDate} 주문</div>
+                                        <div class="product-detail-box">
+                                             <img src=${img}>
+                                             <div class="product-box">
+                                                 <div onclick = "moveProductDetails(${productId})" class="product-info">
+                                                    <span>${productName}</span>
+                                                         <span class="order"> ${productPrice}원 / ${quantity}개</span>
+                                                 </div>
+                                                  <div class="order-price">${totalPrice}원</div>
+                                        </div>
+                                                 <button onclick="orderDelete(${orderId})">주문 취소</button>
+                                        </div>
+                                </div>`
+
+
+                        $(".order-list-box").append(html);
+                    }
+                }
+            })
+        })
+
+        function orderDelete(orderId) {
+            $.ajax({
+                type: "DELETE",
+                url: origin + "order?orderId=" + orderId,
+                data: {},
+                success: function (response) {
+                    alert(response.msg);
+                    window.location.reload();
+                }
+            })
+        }
+
+
+        function moveProductDetails(productId) {
+            location.href = 'product-detail.html?product_id=' + productId;
+        }
+
+
+    </script>
 </head>
 <body>
 <div class="container">
     <div class="body-header">
-        <img src="/static/img/logo.png">
+        <img onclick=location.href='product_search.html' src="/static/img/logo.png">
     </div>
     <div class="body-box">
         <p>주문 목록</p>
         <div class="order-list-box">
-            <div class="order-box">
-                <div class="date-box">
-                    2023.01.01 주문
-                </div>
-                <div class="product-detail-box">
-                    <img src="https://store.storeimages.cdn-apple.com/8756/as-images.apple.com/is/MK2D3?wid=1144&hei=1144&fmt=jpeg&qlt=90&.v=1626390718000">
-                    <div class="product-info">
-                        <span>Apple 정품 매직 트랙패드2, MJ2R2KH/A, 실버</span>
-                        <span> 가격 원 / 몇 개</span>
-                    </div>
-                    <button>주문 취소</button>
-                </div>
-                <div class="product-detail-box">
-                    <img src="https://store.storeimages.cdn-apple.com/8756/as-images.apple.com/is/MK2D3?wid=1144&hei=1144&fmt=jpeg&qlt=90&.v=1626390718000">
-                    <div class="product-info">
-                        <span>Apple 정품 매직 트랙패드2, MJ2R2KH/A, 실버</span>
-                        <span> 가격 원 / 몇 개</span>
-                    </div>
-                    <button>주문 취소</button>
-                </div>
-            </div>
-            <div class="order-box">
-                <div class="date-box">
-                    2023.01.01 주문
-                </div>
-                <div class="product-detail-box">
-                    <img src="https://store.storeimages.cdn-apple.com/8756/as-images.apple.com/is/MK2D3?wid=1144&hei=1144&fmt=jpeg&qlt=90&.v=1626390718000">
-                    <div class="product-info">
-                        <span>Apple 정품 매직 트랙패드2, MJ2R2KH/A, 실버</span>
-                        <span> 가격 원 / 몇 개</span>
-                    </div>
-                    <button>주문 취소</button>
-                </div>
-                <div class="product-detail-box">
-                    <img src="https://store.storeimages.cdn-apple.com/8756/as-images.apple.com/is/MK2D3?wid=1144&hei=1144&fmt=jpeg&qlt=90&.v=1626390718000">
-                    <div class="product-info">
-                        <span>Apple 정품 매직 트랙패드2, MJ2R2KH/A, 실버</span>
-                        <span> 가격 원 / 몇 개</span>
-                    </div>
-                    <button>주문 취소</button>
-                </div>
-            </div>
         </div>
     </div>
 </div>
