@@ -45,10 +45,9 @@
             width: 100%;
         }
 
-        .body-header > img{
+        .body-header > img {
             height: 4rem;
             margin-top: 4%;
-
 
         }
 
@@ -164,6 +163,44 @@
         button:hover {
             background: var(--color-point-4);
         }
+
+        .login {
+            display: flex;
+            height: 30px;
+            width: 100px;
+            justify-content: center;
+            align-items: center;
+            font-family: var(--font-point);
+            margin-top: 3px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 10px;
+        }
+
+        a {
+            text-decoration: none;
+            color: black;
+        }
+
+        a:visited {
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: none;
+        }
+
+        a:focus {
+            text-decoration: none;
+        }
+
+        a:hover, a:active {
+            text-decoration: none;
+        }
+
     </style>
     <script>
         const origin = "http://localhost:8080/api/";
@@ -175,7 +212,6 @@
                 data: {},
                 success: function (response) {
                     let orderList = response.data;
-
                     for (let i = 0; i < orderList.length; i++) {
                         let orderId = orderList[i].orderId;
                         let orderDate = orderList[i].orderDate.split("T")[0].replaceAll("-", ".")
@@ -220,18 +256,19 @@
             })
         }
 
-
         function moveProductDetails(productId) {
             location.href = 'product-detail.html?product_id=' + productId;
         }
 
-
     </script>
 </head>
 <body>
+<div class="header">
+    <div class="login"><a href="login.html"> 로그인</a></div>
+</div>
 <div class="container">
     <div class="body-header">
-        <img onclick=location.href='product_search.html' src="/static/img/logo.png">
+        <img onclick=location.href='index.html' src="/static/img/logo.png">
     </div>
     <div class="body-box">
         <p>주문 목록</p>

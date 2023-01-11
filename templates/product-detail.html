@@ -6,25 +6,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- Bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
     <title>주문 상세 조회</title>
     <style>
         @font-face {
-				    font-family: 'twayair';
-				    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_tway@1.0/twayair.woff') format('woff');
-				    font-weight: normal;
-				    font-style: normal;
-				}
-				
-				@font-face {
-					  font-family: 'S-CoreDream-3Light';
-				    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-3Light.woff') format('woff');
-				    font-weight: normal;
-			      font-style: normal;
-				}
-    
+            font-family: 'twayair';
+            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_tway@1.0/twayair.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: 'S-CoreDream-3Light';
+            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-3Light.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+        }
+
         :root {
             --color-point-1: #4987F2;
             --color-point-2: #6A6A6A;
@@ -33,8 +34,9 @@
         }
 
         main {
-            min-height: 600px;
+            min-height: 590px;
         }
+
         .container {
             margin: 0px 80px 0px;
             display: grid;
@@ -50,10 +52,10 @@
         }
 
         .product-img {
-            border: 2px solid gainsboro;   
-            border-radius: 15px;         
+            border: 2px solid gainsboro;
+            border-radius: 15px;
         }
-        
+
         .product-img > img {
             width: 95%;
             height: 95%;
@@ -61,7 +63,7 @@
 
             /* 이미지 위치 */
             position: relative;
-            top: 50%; 
+            top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
         }
@@ -73,12 +75,8 @@
             margin: 0px 40px 0px;
         }
 
-        .product-brand-name {
-            color: blue;
-        }
-
         .prodict-name {
-            font-size: 1.5em;
+            font-size: 1.3em;
             font-weight: bold;
         }
 
@@ -87,7 +85,7 @@
             font-weight: bold;
             color: #cb1400;
         }
-        
+
         .quantity {
             width: 200px;
             height: 40px;
@@ -98,6 +96,7 @@
             flex-direction: row;
             justify-content: space-between;
         }
+
         .product-order > button {
             display: block;
             float: left;
@@ -105,7 +104,7 @@
             position: relative;
             line-height: 40px;
             width: 48%;
-            height: 42px;
+            height: 40px;
             background: transparent;
             text-align: center;
             font-weight: bold;
@@ -118,45 +117,87 @@
             background-color: #346aff;
             color: white;
         }
-</style>
-<script>
-    $(document).ready(function () {
-        listing();
-    });
 
-    const origin = "http://localhost:8080/api/"
+        .orderDetails {
+            height: 30px;
+            width: 30px;
+            float: right;
+            margin-right: 20px;
+        }
 
-    let qs = window.location.search;
-    let productID = qs.split("=")[1];
+        .login {
+            display: flex;
+            height: 30px;
+            width: 100px;
+            justify-content: center;
+            align-items: center;
+            font-family: var(--font-point);
+            margin-top: 3px;
+        }
 
-    function listing() {
-        let productName = document.querySelector(".prodict-name");
-        let productPridce = document.querySelector(".product-price");
-        let productImg = document.querySelector("product-img-source");
+        .header {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 10px;
+        }
 
-        console.log(origin + 'product/details/' + productID)
-        $.ajax({
-            type: 'GET',
-            url: origin + 'product/details/' + productID,
-            data: {},
-            success: function (response) {
-                let rows = response['data']
-                console.log(rows)
+        #mainLogo {
+            margin-left: 90px;
+        }
 
-                productName.innerText = rows['name'];
-                productPridce.innerText = rows['price'].toLocaleString() + " 원";
-                $(`.product-img > img`).attr({ src: rows['productimg'] });
-            }
-        })
-    }
+        a {
+            text-decoration: none;
+            color: black;
+        }
 
-    function searchProduct() {
-        let keyword = document.getElementById("keyword").value
-        location.href='index.html?search=' + keyword;
-    }
+        a:visited {
+            text-decoration: none;
+        }
 
-    function doOrder() {
-        let currentQuantity = document.getElementById("quantity").value
+        a:hover {
+            text-decoration: none;
+        }
+
+        a:focus {
+            text-decoration: none;
+        }
+
+        a:hover, a:active {
+            text-decoration: none;
+        }
+
+    </style>
+    <script>
+        $(document).ready(function () {
+            listing();
+        });
+
+        const origin = "http://localhost:8080/api/"
+
+        let qs = window.location.search;
+        let productID = qs.split("=")[1];
+
+        function listing() {
+            let productName = document.querySelector(".prodict-name");
+            let productPridce = document.querySelector(".product-price");
+            let productImg = document.querySelector("product-img-source");
+
+            $.ajax({
+                type: 'GET',
+                url: origin + 'product/details/' + productID,
+                data: {},
+                success: function (response) {
+                    let rows = response['data']
+
+                    productName.innerText = rows['name'];
+                    productPridce.innerText = rows['price'].toLocaleString() + " 원";
+                    $(`.product-img > img`).attr({src: rows['productimg']});
+                }
+            })
+        }
+
+        function doOrder() {
+            let currentQuantity = document.getElementById("quantity").value
 
         $.ajax({
             type: 'POST',
@@ -170,57 +211,67 @@
         })
     }
 
-    function goToMain() {
-        location.href='index.html'
-    }
+        function goToMain() {
+            location.href = 'index.html'
+        }
 
+        function orderMoreProduct() {
+            document.getElementById("quantity").stepUp();
+        }
 
-    function orderMoreProduct() {
-        document.getElementById("quantity").stepUp();
-        console.log(document.getElementById("quantity").value);
-    }
+        function orderLessProduct() {
+            if (document.getElementById("quantity").value > 1) {
+                document.getElementById("quantity").stepDown();
+            }
+        }
 
-    function orderLessProduct() {
-        if (document.getElementById("quantity").value > 1) {
-            document.getElementById("quantity").stepDown();
-        } 
-    }
-</script>
+        function orderList() {
+            location.href = 'order_details.html'
+        }
+
+    </script>
 </head>
 <body>
-    <header>
-        <div onclick="goToMain()">
-            <img id="mainLogo" src="/static/img/logo.png" alt="한방에 로고", width="300px", style="object-fit: fill;">
-        </div>
-    </header>
-    <main>
-        <div class="container">
-            <div class="search">
-                <div class="input-group mb-3">
-                    <input type="text" class="form-control" id="keyword" placeholder="찾고싶은 상품을 검색해주세요!" aria-label="Recipient's username" aria-describedby="button-addon2">
-                    <button class="btn btn-outline-secondary" type="button" id="button-addon2" onclick="searchProduct()">검색하기</button>
-                  </div>
-            </div>
-            <div class="product-img">
-                <img>
-            </div>
-            <div class="product-info">
-                <div class="prodict-name"></div>
-                <div class="product-price"></div>
-                <div class="order-quantity">
-                    <div class="input-group quantity">
-                        <input type="number" class="form-control" id="quantity" value="1" max="10">
-                        <button class="btn btn-outline-secondary" id="quantity-more" type="button" onclick="orderMoreProduct()">+</button>
-                        <button class="btn btn-outline-secondary" id="quantity-less" type="button" onclick="orderLessProduct()">-</button>
-                    </div>
-                </div>
-                <div class="product-order">
-                    <button>장바구니 담기</button>
-                    <button class="order-Btn" onclick="doOrder()">바로주문</button>
-                </div>
+<div class="header">
+    <div class="login"><a href="login.html"> 로그인</a></div>
+    <div onclick="orderList()">
+        <img class="orderDetails" src="/static/img/order_details.png" onclick="orderList()">
+    </div>
+</div>
+<header>
+    <div onclick="goToMain()">
+        <img id="mainLogo" src="/static/img/logo.png" alt="한방에 로고" , width="200px" , style="object-fit: fill;">
+    </div>
+</header>
+<main>
+    <div class="container">
+        <div class="search">
+            <div class="input-group mb-3">
             </div>
         </div>
-    </main> 
-    <footer></footer>
+        <div class="product-img">
+            <img>
+        </div>
+        <div class="product-info">
+            <div class="prodict-name"></div>
+            <div class="product-price"></div>
+            <div class="order-quantity">
+                <div class="input-group quantity">
+                    <input type="number" class="form-control" id="quantity" value="1" max="10">
+                    <button class="btn btn-outline-secondary" id="quantity-more" type="button"
+                            onclick="orderMoreProduct()">+
+                    </button>
+                    <button class="btn btn-outline-secondary" id="quantity-less" type="button"
+                            onclick="orderLessProduct()">-
+                    </button>
+                </div>
+            </div>
+            <div class="product-order">
+                <button class="order-Btn" onclick="doOrder()">바로주문</button>
+            </div>
+        </div>
+    </div>
+</main>
+<footer></footer>
 </body>
 </html>
