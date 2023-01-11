@@ -157,17 +157,12 @@
             let keyword = $('.search-box').val();
             let sort = $('.search-detail').val();
             let pageNum = 1;
-            console.log(sort)
-            console.log(keyword)
 
             $.ajax({
                 type: "GET",
                 url: origin + 'product/list?search=' + keyword + '&orderby=' + sort + '&page=' + pageNum,
                 data: {},
                 success: function (response) {
-                    console.log(origin + 'product/list?search=' + keyword + '&orderby=' + sort + '&page=' + pageNum)
-                    console.log(response.data)
-                    console.log(response.data.items)
                     let productList = response.data.items;
                     $(".product").replaceWith();
                     for (let i = 0; i < productList.length; i++) {
