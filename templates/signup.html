@@ -6,19 +6,49 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link rel="stylesheet" href = "/static/css/login-signup.css">
 </head>
+<script>
+    const origin = "http://localhost:8080/api/";
+
+    function signup() {
+        const email = $('#email').val();
+        const password = $('#password').val();
+        const address = $('#address').val();
+
+        if (email === "") {
+            alert("이메일을 입력해주세요.")
+        } else if (password === "" && address === "") {
+            alert("모두 입력해 주세요.")
+        } else {
+            $.ajax({
+                type: "POST",
+                url: origin + "member/signup",
+                contentType: "application/json; charset=UTF-8",
+                data: JSON.stringify({"email": email, "password": password, "address": address}),
+                success: function (response) {
+                    alert("회원가입이 완료되었습니다.");
+                    location.href = "login.html";
+                },
+                error: function (response) {
+                    alert(response.responseJSON.msg);
+                }
+            })
+        }
+    }
+
+</script>
 <body>
 <div class="main-container">
     <div class="img-container">
         <img src="/static/img/logo.png">
     </div>
     <form class="input-container">
-        <input type="email" id="loginId" placeholder="이메일" required>
-        <input type="password" id="loginPw" placeholder="비밀번호" required>
+        <input type="email" id="email" placeholder="이메일" required>
+        <input type="password" id="password" placeholder="비밀번호" required>
         <input type="text" id="address" placeholder="주소" required>
+        <button type="button" onclick="signup()" class="main-button">
+            회원가입
+        </button>
     </form>
-    <button class="main-button">
-        회원가입
-    </button>
     <span onclick="location.href='login.html'" class="sub-button"> 👉 로그인하러 가기</span>
 </div>
 </body>
