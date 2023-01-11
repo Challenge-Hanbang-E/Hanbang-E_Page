@@ -199,17 +199,17 @@
         function doOrder() {
             let currentQuantity = document.getElementById("quantity").value
 
-        $.ajax({
-            type: 'POST',
-            url: origin + 'order?productId=' + productID,
-            contentType: "application/json; charset=UTF-8",
-            data: JSON.stringify({quantity: currentQuantity}),
-            success: function(response) {
-                alert('주문 성공')
-                window.location.reload();
-            }
-        })
-    }
+            $.ajax({
+                type: 'POST',
+                url: origin + 'order?productId=' + productID,
+                contentType: "application/json; charset=UTF-8",
+                data: JSON.stringify({quantity: currentQuantity}),
+                success: function (response) {
+                    alert('주문 성공')
+                    location.href = 'order_details.html';
+                }
+            })
+        }
 
         function goToMain() {
             location.href = 'index.html'
