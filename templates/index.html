@@ -3,66 +3,208 @@
 <head>
     <meta charset="UTF-8">
     <title>한방에</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
-<style>
-    @font-face {
-        font-family: 'twayair';
-        src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_tway@1.0/twayair.woff') format('woff');
-        font-weight: normal;
-        font-style: normal;
-    }
+    <style>
+        @font-face {
+            font-family: 'twayair';
+            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_tway@1.0/twayair.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+        }
 
-    @font-face {
-        font-family: 'S-CoreDream-3Light';
-        src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-3Light.woff') format('woff');
-        font-weight: normal;
-        font-style: normal;
-    }
+        @font-face {
+            font-family: 'S-CoreDream-3Light';
+            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-3Light.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+        }
 
-    :root {
-        --color-point-1: #4987F2;
-        --color-point-2: #6A6A6A;
-        --font-point: twayair;
-        --font-basic: S-CoreDream-3Light;
-    }
+        :root {
+            --color-point-1: #4987F2;
+            --color-point-2: #6A6A6A;
+            --font-point: twayair;
+            --font-basic: S-CoreDream-3Light;
+        }
 
-    .logo {
-        font-family: var(--font-point);
-        color: var(--color-point-1);
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        height: 250px;
-    }
-    .logoImg {
-        margin-top: 50px;
-    }
+        .logo {
+            font-family: var(--font-point);
+            color: var(--color-point-1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 250px;
+        }
 
-    .wrap {
-        text-align: center;
-    }
+        .logoImg {
+            margin-top: 50px;
+        }
 
-    .search-box {
-        height: 45px;
-        width: 500px;
-        border-color: var(--color-point-1);
-    }
+        .wrap {
+            text-align: center;
+            padding-bottom: 20px;
+        }
 
-    .search-button {
-        height: 45px;
-        width: 80px;
-    }
+        .search-box {
+            height: 45px;
+            width: 500px;
+            border-color: var(--color-point-1);
+        }
 
-</style>
-<body>
-<div class="logo">
-    <img class="logoImg" alt="Hanbange" src="/static/img/logo.png">
-</div>
-<div class="wrap">
-    <form action="https://www.hanbange.com/search" method="GET">
-        <input class="search-box" type="search" name="q" placeholder="상품명을 입력해주세요.">
-        <input class="search-button" type="submit" value="검색">
-    </form>
-</div>
-</body>
+        .search-button {
+            height: 45px;
+            width: 80px;
+        }
+
+        .search-detail {
+            height: 45px;
+            width: 90px;
+        }
+
+        .productSearched {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .product {
+            height: 300px;
+            width: 300px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid black;
+            border-radius: 10px;
+            margin: 20px;
+        }
+
+        .productImg {
+            height: 180px;
+            width: 280px;
+            background-color: white;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .productImg > img {
+            height: 180px;
+            width: 280px;
+            border-radius: 10px;
+        }
+
+        .productName {
+            height: 50px;
+            width: 280px;
+            border-radius: 10px;
+            display: flex;
+            text-align: left;
+            align-items: center;
+        }
+
+        .productPrice {
+            height: 50px;
+            width: 280px;
+            border-radius: 10px;
+            display: flex;
+            text-align: left;
+            align-items: center;
+        }
+
+        .orderDetails{
+            height: 30px;
+            width: 30px;
+            float: right;
+            margin-right: 20px;
+        }
+        .login {
+            display: flex;
+            height: 30px;
+            width: 100px;
+            justify-content: center;
+            align-items: center;
+            font-family: var(--font-point);
+            margin-top: 3px;
+        }
+        .header {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 10px;
+        }
+
+        a { text-decoration: none; color: black; }
+        a:visited { text-decoration: none; }
+        a:hover { text-decoration: none; }
+        a:focus { text-decoration: none; }
+        a:hover, a:active { text-decoration: none; }
+
+    </style>
+    <script>
+        const origin = "http://localhost:8080/api/";
+
+        function productEmpty() {
+            window.location.reload();
+        }
+
+        function moveProductDetails(productId) {
+            location.href = 'product-detail.html?product_id=' + productId;
+        }
+
+        function searchProduct() {
+            let keyword = $('.search-box').val();
+            let sort = $('.search-detail').val();
+            let pageNum = 1;
+
+            $.ajax({
+                type: "GET",
+                url: origin + 'product/list?search=' + keyword + '&orderby=' + sort + '&page=' + pageNum,
+                data: {},
+                success: function (response) {
+                    let productList = response.data.items;
+                    $(".product").replaceWith();
+                    for (let i = 0; i < productList.length; i++) {
+                        let productId = productList[i].productId;
+                        let productName = productList[i].name;
+                        let img = productList[i].img;
+                        let productPrice = productList[i].price.toLocaleString();
+                        let html = `<div onclick="moveProductDetails(${productId})" class="product">
+                                        <div class="productImg"><img src=${img} alt=""></div>
+                                            <div class="productName">${productName}</div>
+                                        <div class="productPrice">${productPrice}원</div>
+                                    </div>`
+                        $(".productSearched").append(html);
+                    }
+                }
+            })
+        }
+
+        function orderList() {
+            location.href = 'order_details.html'
+        }
+
+    </script>
+    <body>
+        <div class="header">
+            <div class="login"><a href="login.html"> 로그인</a></div>
+            <div onclick="orderList()">
+                <img class="orderDetails" src="/static/img/order_details.png" onclick="orderList()">
+            </div>
+        </div>
+        <div class="logo">
+            <img class="logoImg" onclick="productEmpty()" src="/static/img/logo.png"></div>
+        <div class="wrap">
+            <input class="search-box" type="text" placeholder="상품명을 입력해주세요.">
+            <button class="search-button" onclick="searchProduct()">검색</button>
+            <select class="search-detail" onchange="searchProduct()">
+                <option value="priceasc">낮은 가격순</option>
+                <option value="pricedesc">높은 가격순</option>
+                <option value="popular" selected>판매량 순</option>
+            </select>
+        </div>
+        <div class="productSearched">
+        </div>
+    </body>
 </html>
