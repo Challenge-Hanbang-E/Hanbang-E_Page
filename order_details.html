@@ -2,8 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>주문 상세</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
     <style>
         @font-face {
             font-family: 'twayair';
@@ -206,8 +207,10 @@
         const origin = "http://localhost:8080/api/";
 
         $(document).ready(function set() {
+            loginbtnTextChange();
             $.ajax({
                 type: "GET",
+                headers: {'authorization': $.cookie('auth')},
                 url: origin + "order/list",
                 data: {},
                 success: function (response) {
@@ -248,6 +251,7 @@
             $.ajax({
                 type: "DELETE",
                 url: origin + "order?orderId=" + orderId,
+                headers: {'authorization': $.cookie('auth')},
                 data: {},
                 success: function (response) {
                     alert(response.msg);
@@ -260,15 +264,38 @@
             location.href = 'product-detail.html?product_id=' + productId;
         }
 
+        function loginbtnTextChange() {
+            let btn = document.querySelector(".login");
+            if ($.cookie('auth') != null) {
+                btn.innerHTML= "로그아웃";
+            }
+        }
+
+        function loginAndlogout() {
+            let btn = document.querySelector(".login");
+
+            if (btn.innerHTML == "로그인") {
+                location.href = "login.html";
+            } else if(btn.innerHTML == "로그아웃") {
+                location.href = "login.html";
+                $.removeCookie('auth', { path: '/' });
+                location.href='index.html'
+            }
+        }
+
+
+        function goToMain() {
+            location.href='index.html'
+        }
     </script>
 </head>
 <body>
 <div class="header">
-    <div class="login"><a href="login.html"> 로그인</a></div>
+    <div class="login" onclick="loginAndlogout()">로그인</div>
 </div>
 <div class="container">
     <div class="body-header">
-        <img onclick=location.href='index.html' src="./static/img/logo.png">
+        <img onclick="goToMain()" src="./static/img/logo.png">
     </div>
     <div class="body-box">
         <p>주문 목록</p>

@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <title>한방에</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+
 </head>
 <style>
     @font-face {
@@ -162,6 +164,10 @@
 <script>
     const origin = "http://localhost:8080/api/";
 
+    $(document).ready(function set() {
+            loginbtnTextChange();
+    });
+
     function productEmpty() {
         window.location.reload();
     }
@@ -207,15 +213,38 @@
     }
 
     function orderList() {
-        location.href = 'order_details.html'
+        if ($.cookie('auth') != null) {
+            location.href = 'order_details.html'
+        } else {
+            alert("로그인을 해주세요.")
+        }
+    }
+
+    function loginbtnTextChange() {
+            let btn = document.querySelector(".login");
+            if ($.cookie('auth') != null) {
+                btn.innerHTML= "로그아웃";
+            }
+        }
+
+    function loginAndlogout() {
+        let btn = document.querySelector(".login");
+
+        if (btn.innerHTML == "로그인") {
+            location.href = "login.html";
+        } else if(btn.innerHTML == "로그아웃") {
+            location.href = "login.html";
+            $.removeCookie('auth', { path: '/' });
+            location.href='index.html'
+        }
     }
 
 </script>
 <body>
 <div class="header">
-    <div class="login"><a href="login.html"> 로그인</a></div>
+    <div class="login" onclick="loginAndlogout()">로그인</div>
     <div onclick="orderList()">
-        <img class="orderDetails" src="./static/img/order_details.png" onclick="orderList()">
+        <img class="orderDetails" src="./static/img/order_details.png">
     </div>
 </div>
 <div class="logo">

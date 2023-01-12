@@ -9,8 +9,9 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
 
-    <title>주문 상세 조회</title>
+    <title>상품 상세 조회</title>
     <style>
         @font-face {
             font-family: 'twayair';
@@ -170,6 +171,7 @@
     <script>
         $(document).ready(function () {
             listing();
+            loginbtnTextChange();
         });
 
         const origin = "http://localhost:8080/api/"
@@ -201,6 +203,7 @@
 
             $.ajax({
                 type: 'POST',
+                headers: {'authorization': $.cookie('auth')},
                 url: origin + 'order?productId=' + productID,
                 contentType: "application/json; charset=UTF-8",
                 data: JSON.stringify({quantity: currentQuantity}),
@@ -226,16 +229,38 @@
         }
 
         function orderList() {
-            location.href = 'order_details.html'
+            if ($.cookie('auth') != null) {
+                location.href = 'order_details.html'
+            } else {
+                alert("로그인을 해주세요.")
+            }
+        }
+
+        function loginbtnTextChange() {
+            let btn = document.querySelector(".login");
+            if ($.cookie('auth') != null) {
+                btn.innerHTML= "로그아웃";
+            }
+        }
+
+        function loginAndlogout() {
+            let btn = document.querySelector(".login");
+
+            if (btn.innerHTML == "로그인") {
+                location.href = "login.html";
+            } else if(btn.innerHTML == "로그아웃") {
+                location.href = "login.html";
+                $.removeCookie('auth', { path: '/' });
+            }
         }
 
     </script>
 </head>
 <body>
 <div class="header">
-    <div class="login"><a href="login.html"> 로그인</a></div>
+    <div class="login" onclick="loginAndlogout()">로그인</div>
     <div onclick="orderList()">
-        <img class="orderDetails" src="./static/img/order_details.png" onclick="orderList()">
+        <img class="orderDetails" src="./static/img/order_details.png">
     </div>
 </div>
 <header>
