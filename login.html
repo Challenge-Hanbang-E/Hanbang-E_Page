@@ -2,9 +2,28 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>로그인</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link rel="stylesheet" href = "./static/css/login-signup.css">
+
+    <script>
+        function login() {
+            const origin = "http://localhost:8080/api/"
+            let id= $('#loginId').val();
+            let password= $('#loginPw').val();
+            $.ajax({
+                type: 'POST',
+                url: origin + 'member/login',
+                contentType: "application/json; charset=UTF-8",
+                data: JSON.stringify({email: id, password: password}),
+                success: function (data, status, xhr) {
+                    document.cookie = "auth=" + xhr.getResponseHeader('authorization');
+                    alert('로그인 성공')
+                    location.href = 'index.html';
+                }
+            })
+        }
+    </script>
 </head>
 <body>
 <div class="main-container">
@@ -15,7 +34,7 @@
         <input type="email" id="loginId" placeholder="이메일" required>
         <input type="password" id="loginPw" placeholder="비밀번호" required>
     </form>
-    <button class="main-button">로그인</button>
+    <button class="main-button" onclick="login()">로그인</button>
     <span onclick="location.href='signup.html'" class="sub-button"> 👉 회원가입하러 가기</span>
 </div>
 </body>
