@@ -176,24 +176,38 @@
         location.href = 'product-detail.html?product_id=' + productId;
     }
 
+    let pageNum = 1;
+
+    $(window).scroll(function () {
+        if ($(window).scrollTop() == $(document).height() - $(window).height()) {
+            pageNum += 1;
+            console.log(pageNum)
+            searchProduct()
+        }
+    });
+
+    function changeWindow() {
+        $(".product").replaceWith();
+        searchProduct();
+    }
+
     function searchProduct() {
         let keyword = $('.search-box').val();
         let sort = $('.search-detail').val();
-        let pageNum = 1;
         if (keyword === "") {
             alert("키워드를 검색해 주세요.")
         } else {
-
             $.ajax({
                 type: "GET",
-                url: origin + 'product/list?search=' + keyword + '&orderby=' + sort + '&page=' + pageNum,
+                url: origin + 'product/list?search=' + keyword + '&orderby=' + sort + '&page=' + pageNum + '&size=20' ,
                 data: {},
                 success: function (response) {
+                    console.log(response.data)
                     let productList = response.data.items;
                     if (productList.length === 0) {
-                        alert(keyword + "에 대한 검색결과가 없습니다.")
+                        alert(keyword + "에 대한 더이상의 검색결과가 없습니다.")
+                        pageNum = 1;
                     } else {
-                        $(".product").replaceWith();
                         for (let i = 0; i < productList.length; i++) {
                             let productId = productList[i].productId;
                             let productName = productList[i].name;
@@ -251,8 +265,8 @@
     <img class="logoImg" onclick="productEmpty()" src="./static/img/logo.png"></div>
 <div class="wrap">
     <input class="search-box" type="text" placeholder="상품명을 입력해주세요.">
-    <button class="search-button" onclick="searchProduct()">검색</button>
-    <select class="search-detail" onchange="searchProduct()">
+    <button class="search-button" onclick="changeWindow()">검색</button>
+    <select class="search-detail" onchange="changeWindow()">
         <option value="priceasc">낮은 가격순</option>
         <option value="pricedesc">높은 가격순</option>
         <option value="popular" selected>판매량 순</option>
