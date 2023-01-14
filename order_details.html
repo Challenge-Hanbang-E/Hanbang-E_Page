@@ -243,6 +243,9 @@
 
                         $(".order-list-box").append(html);
                     }
+                },
+                error: function (response) {
+                    alert(response.responseJSON.msg);
                 }
             })
         })

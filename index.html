@@ -225,6 +225,9 @@
                             $(".productSearched").append(html);
                         }
                     }
+                },
+                error: function (response) {
+                    alert(response.responseJSON.msg);
                 }
             })
         }
