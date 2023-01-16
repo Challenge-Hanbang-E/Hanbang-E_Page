@@ -194,6 +194,9 @@
                     productName.innerText = rows['name'];
                     productPridce.innerText = rows['price'].toLocaleString() + " 원";
                     $(`.product-img > img`).attr({src: rows['productimg']});
+                },
+                error: function (response) {
+                    alert(response.responseJSON.msg);
                 }
             })
         }
@@ -210,6 +213,9 @@
                 success: function (response) {
                     alert('주문 성공')
                     location.href = 'order_details.html';
+                },
+                error: function (response) {
+                    alert(response.responseJSON.msg);
                 }
             })
         }
