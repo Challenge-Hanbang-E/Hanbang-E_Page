@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <title>한방에</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+    <script type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
 
 </head>
 <style>
@@ -168,7 +169,7 @@
     const origin = "http://43.200.75.79:8080/api/";
 
     $(document).ready(function set() {
-            loginbtnTextChange();
+        loginbtnTextChange();
     });
 
     function productEmpty() {
@@ -179,58 +180,69 @@
         location.href = 'product-detail.html?product_id=' + productId;
     }
 
-    let pageNum = 1;
+    let pageNum = 0;
+    let lastPage = false;
 
     $(window).scroll(function () {
         if ($(window).scrollTop() == $(document).height() - $(window).height()) {
-            pageNum += 1;
-            console.log(pageNum)
-            searchProduct()
+            if (!lastPage) {
+                let keyword = $('.search-box').val();
+                pageNum += 1;
+                searchProduct(keyword)
+            }
         }
     });
 
     function changeWindow(e) {
-        event.preventDefault();
-        $('.product').replaceWith();
-        searchProduct();
-    }
 
-    function searchProduct() {
         let keyword = $('.search-box').val();
-        let sort = $('.search-detail').val();
         if (keyword === "") {
             alert("키워드를 검색해 주세요.")
         } else {
-            $.ajax({
-                type: "GET",
-                url: origin + 'product/list?search=' + keyword + '&orderby=' + sort + '&page=' + pageNum + '&size=20' ,
-                data: {},
-                success: function (response) {
-                    console.log(response.data)
-                    let productList = response.data.items;
-                    if (productList.length === 0) {
-                        alert(keyword + "에 대한 더이상의 검색결과가 없습니다.")
-                        pageNum = 1;
-                    } else {
-                        for (let i = 0; i < productList.length; i++) {
-                            let productId = productList[i].productId;
-                            let productName = productList[i].name;
-                            let img = productList[i].img;
-                            let productPrice = productList[i].price.toLocaleString();
-                            let html = `<div onclick="moveProductDetails(${productId})" class="product">
+            event.preventDefault();
+            $('.product').replaceWith();
+            pageNum = 0
+            lastPage = false;
+            searchProduct(keyword);
+        }
+    }
+
+    function searchProduct(keyword) {
+        console.log(keyword)
+        let sort = $('.search-detail').val();
+
+
+        $.ajax({
+            type: "GET",
+            url: origin + 'product/list/ci?search=' + keyword + '&page=' + pageNum + '&size=20' + '&sort=' + sort,
+            data: {},
+            success: function (response) {
+                console.log(response)
+                let productList = response.data;
+                const nextPage = response.data.hasNestPage;
+
+                if (nextPage) {
+                    alert(keyword + "에 대한 더이상의 검색결과가 없습니다.")
+                    lastPage = true;
+                } else {
+                    for (let i = 0; i < productList.length; i++) {
+                        let productId = productList[i].productId;
+                        let productName = productList[i].name;
+                        let img = productList[i].img;
+                        let productPrice = productList[i].price.toLocaleString();
+                        let html = `<div onclick="moveProductDetails(${productId})" class="product">
                                         <div class="productImg"><img src=${img} alt=""></div>
                                             <div class="productName">${productName}</div>
                                         <div class="productPrice">${productPrice}원</div>
                                     </div>`
-                            $(".productSearched").append(html);
-                        }
+                        $(".productSearched").append(html);
                     }
                 },
                 error: function (response) {
                     alert(response.responseJSON.msg);
                 }
-            })
-        }
+            }
+        })
     }
 
     function orderList() {
@@ -242,21 +254,21 @@
     }
 
     function loginbtnTextChange() {
-            let btn = document.querySelector(".login");
-            if ($.cookie('auth') != null) {
-                btn.innerHTML= "로그아웃";
-            }
+        let btn = document.querySelector(".login");
+        if ($.cookie('auth') != null) {
+            btn.innerHTML = "로그아웃";
         }
+    }
 
     function loginAndlogout() {
         let btn = document.querySelector(".login");
 
         if (btn.innerHTML == "로그인") {
             location.href = "login.html";
-        } else if(btn.innerHTML == "로그아웃") {
+        } else if (btn.innerHTML == "로그아웃") {
             location.href = "login.html";
-            $.removeCookie('auth', { path: '/' });
-            location.href='index.html'
+            $.removeCookie('auth', {path: '/'});
+            location.href = 'index.html'
         }
     }
 
@@ -274,9 +286,9 @@
     <input class="search-box" type="text" placeholder="상품명을 입력해주세요.">
     <button class="search-button" onclick="changeWindow()">검색</button>
     <select class="search-detail" onchange="changeWindow()">
-        <option value="priceasc">낮은 가격순</option>
-        <option value="pricedesc">높은 가격순</option>
-        <option value="popular" selected>판매량 순</option>
+        <option value="price,asc">낮은 가격순</option>
+        <option value="price,desc">높은 가격순</option>
+        <option value="sales,desc" selected>판매량 순</option>
     </select>
 </form>
 <div class="productSearched">
