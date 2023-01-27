@@ -244,6 +244,9 @@
                 if (!hasNextPage) {
                     $(".result").replaceWith(`<div class="result"> "${keyword}"에 대한 더이상의 검색결과가 없습니다. <div>`)
                 }
+            },
+            error: function (response) {
+              alert(response.responseJSON.msg);
             }
         })
     }
