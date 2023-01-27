@@ -102,13 +102,13 @@
 
     .productName {
         width: 100%;
-        border-radius: 10px;
+        /*border-radius: px;*/
         display: -webkit-box;
         -webkit-line-clamp: 2;
         -webkit-box-orient: vertical;
         overflow: hidden;
         margin: 15px auto;
-        height: 50px;
+        height: 41px;
     }
 
     .productPrice {
@@ -164,6 +164,13 @@
         text-decoration: none;
     }
 
+    .result {
+        margin-top: 50px;
+        margin-bottom: 50px;
+        font-size: 22px;
+        text-align: center;
+
+    }
 </style>
 <script>
     const origin = "http://43.200.75.79:8080/api/";
@@ -181,11 +188,11 @@
     }
 
     let pageNum = 0;
-    let lastPage = false;
+    let hasNextPage;
 
     $(window).scroll(function () {
         if ($(window).scrollTop() == $(document).height() - $(window).height()) {
-            if (!lastPage) {
+            if (hasNextPage) {
                 let keyword = $('.search-box').val();
                 pageNum += 1;
                 searchProduct(keyword)
@@ -202,8 +209,9 @@
             event.preventDefault();
             $('.product').replaceWith();
             pageNum = 0
-            lastPage = false;
+            hasNextPage = true;
             searchProduct(keyword);
+            $(".result").replaceWith(`<div class="result"></div>`)
         }
     }
 
@@ -217,30 +225,28 @@
             url: origin + 'product/list/ci?search=' + keyword + '&page=' + pageNum + '&size=20' + '&sort=' + sort,
             data: {},
             success: function (response) {
-                console.log(response)
                 let productList = response.data;
-                const nextPage = response.data.hasNestPage;
+                hasNextPage = response.hasNestPage;
 
-                if (nextPage) {
-                    alert(keyword + "에 대한 더이상의 검색결과가 없습니다.")
-                    lastPage = true;
-                } else {
-                    for (let i = 0; i < productList.length; i++) {
-                        let productId = productList[i].productId;
-                        let productName = productList[i].name;
-                        let img = productList[i].img;
-                        let productPrice = productList[i].price.toLocaleString();
-                        let html = `<div onclick="moveProductDetails(${productId})" class="product">
-                                        <div class="productImg"><img src=${img} alt=""></div>
-                                            <div class="productName">${productName}</div>
-                                        <div class="productPrice">${productPrice}원</div>
-                                    </div>`
-                        $(".productSearched").append(html);
-                    }
-                },
-                error: function (response) {
-                    alert(response.responseJSON.msg);
+                for (let i = 0; i < productList.length; i++) {
+                    let productId = productList[i].productId;
+                    let productName = productList[i].name;
+                    let img = productList[i].img;
+                    let productPrice = productList[i].price.toLocaleString();
+                    let html = `<div onclick="moveProductDetails(${productId})" class="product">
+                                    <div class="productImg"><img src=${img} alt=""></div>
+                                        <div class="productName">${productName}</div>
+                                    <div class="productPrice">${productPrice}원</div>
+                                </div>`
+                    $(".productSearched").append(html);
                 }
+
+                if (!hasNextPage) {
+                    $(".result").replaceWith(`<div class="result"> "${keyword}"에 대한 더이상의 검색결과가 없습니다. <div>`)
+                }
+            },
+            error: function (response) {
+              alert(response.responseJSON.msg);
             }
         })
     }
@@ -293,5 +299,6 @@
 </form>
 <div class="productSearched">
 </div>
+<div class="result"></div>
 </body>
 </html>
