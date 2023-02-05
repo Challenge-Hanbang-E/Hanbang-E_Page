@@ -26,6 +26,7 @@
     :root {
         --color-point-1: #4987F2;
         --color-point-2: #6A6A6A;
+        --color-point-4: #ECF0FE;
         --font-point: twayair;
         --font-basic: S-CoreDream-3Light;
     }
@@ -58,18 +59,33 @@
 
     .search-box {
         height: 45px;
-        width: 500px;
+        width: 530px;
         border-color: var(--color-point-1);
+        margin-right: 10px;
     }
 
     .search-button {
         height: 45px;
         width: 80px;
+        color: var(--color-point-1);
+        background: white;
+        border: 1.2px ridge var(--color-point-1);
+        border-radius: 2px;
+
+    }
+
+    .search-button:hover {
+        background: var(--color-point-4);
     }
 
     .search-detail {
         height: 45px;
-        width: 90px;
+        width: 100px;
+        background: var(--color-point-4);
+        color: var(--color-point-1);
+        padding-left: 10px;
+        border: 1.2px ridge var(--color-point-1);
+        border-radius: 2px;
     }
 
     .productWrap {
