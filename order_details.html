@@ -4,228 +4,252 @@
     <meta charset="UTF-8">
     <title>주문 상세</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
-    <style>
-        @font-face {
-            font-family: 'twayair';
-            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_tway@1.0/twayair.woff') format('woff');
-            font-weight: normal;
-            font-style: normal;
-        }
+    <script type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+</head>
+<style>
+    @font-face {
+        font-family: 'twayair';
+        src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_tway@1.0/twayair.woff') format('woff');
+        font-weight: normal;
+        font-style: normal;
+    }
 
-        @font-face {
-            font-family: 'S-CoreDream-3Light';
-            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-3Light.woff') format('woff');
-            font-weight: normal;
-            font-style: normal;
-        }
+    @font-face {
+        font-family: 'S-CoreDream-3Light';
+        src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-3Light.woff') format('woff');
+        font-weight: normal;
+        font-style: normal;
+    }
 
-        :root {
-            --color-point-1: #3E6EF4;
-            --color-point-2: #6A6A6A;
-            --color-point-3: #F4F4F4;
-            --color-point-4: #ECF0FE;
-            --font-point: twayair;
-            --font-basic: S-CoreDream-3Light;
-        }
+    :root {
+        --color-point-1: #3E6EF4;
+        --color-point-2: #6A6A6A;
+        --color-point-3: #F4F4F4;
+        --color-point-4: #ECF0FE;
+        --font-point: twayair;
+        --font-basic: S-CoreDream-3Light;
+    }
 
-        .container {
-            width: 80%;
-            min-width: 800px;
-            max-width: 950px;
+    body {
+        display: flex;
+        flex-direction: column;
+        max-width: 1440px;
+        margin: auto;
+    }
 
-            background-color: white;
+    .container {
+        width: 80%;
+        min-width: 800px;
+        max-width: 950px;
+        margin-top: 50px;
+        background-color: white;
 
-            position: absolute;
-            left: 33%;
-            margin-left: -250px;
-        }
+        position: absolute;
+        left: 33%;
+        margin-left: -250px;
+    }
 
-        .body-header {
-            height: 120px;
-            width: 100%;
-        }
+    .body-header {
+        height: 120px;
+        width: 100%;
+        padding-top: 40px;
+    }
 
-        .body-header > img {
-            height: 4rem;
-            margin-top: 4%;
+    .body-header > img {
+        height: 4rem;
 
-        }
+    }
 
-        .body-box {
-            width: 100%;
-            height: 85%;
-            background: white;
+    .desc {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 200px;
+        font-family: var(--font-basic);
+        font-weight: bold;
+    }
 
-            margin-top: 20px;
-            padding-bottom: 30px;
-        }
+    .body-box {
+        width: 100%;
+        height: 85%;
+        background: white;
 
-        p {
-            font-family: var(--font-point);
-            margin-left: 5%;
-            font-size: 1.2rem;
-        }
+        margin-top: 20px;
+        padding-bottom: 30px;
+    }
 
-        .order-list-box {
-            width: 100%;
-            height: 90%;
-            background: white;
-        }
+    p {
+        font-family: var(--font-point);
+        margin-left: 5%;
+        font-size: 1.2rem;
+    }
 
-        .order-box {
-            width: 90%;
-            background: white;
+    .order-list-box {
+        width: 100%;
+        height: 90%;
+        background: white;
+    }
 
-            border-radius: 5px;
+    .order-box {
+        width: 90%;
+        background: white;
 
-            margin: 15px auto 30px auto;
-            padding-bottom: 20px;
+        border-radius: 5px;
 
-            display: flex;
-            flex-direction: column;
-            box-shadow: 0px 0px 2.5px var(--color-point-2);
-        }
+        margin: 15px auto 30px auto;
+        padding-bottom: 20px;
 
-        .date-box {
-            font-size: 1.1rem;
-            font-family: var(--font-point);
+        display: flex;
+        flex-direction: column;
+        box-shadow: 0px 0px 2.5px var(--color-point-2);
+    }
 
-            margin-top: 20px;
-            margin-left: 3%;
-            margin-bottom: 15px;
-        }
+    .date-box {
+        font-size: 1.1rem;
+        font-family: var(--font-point);
 
-        .product-detail-box {
-            display: flex;
-            align-items: center;
+        margin-top: 20px;
+        margin-left: 3%;
+        margin-bottom: 15px;
+    }
 
-            width: 95%;
+    .product-detail-box {
+        display: flex;
+        align-items: center;
 
-            box-shadow: 0px 0px 2px var(--color-point-2);
-            border-radius: 5px;
+        width: 95%;
 
-            margin-top: 10px;
-            margin-bottom: 10px;
-            margin-left: 2.5%;
+        box-shadow: 0px 0px 2px var(--color-point-2);
+        border-radius: 5px;
 
-        }
+        margin-top: 10px;
+        margin-bottom: 10px;
+        margin-left: 2.5%;
 
-        .product-detail-box > img {
-            margin: 20px 4% 20px 20px;
-            height: 130px;
-        }
+    }
 
-        .product-box {
-            display: flex;
-            flex: 1;
-            align-items: center;
+    .product-detail-box > img {
+        margin: 20px 4% 20px 20px;
+        height: 130px;
+    }
 
-            width: 70%;
-        }
+    .product-box {
+        display: flex;
+        flex: 1;
+        align-items: center;
 
-        .product-info {
-            display: flex;
-            flex-direction: column;
-            width: 60%;
+        width: 70%;
+    }
 
-        }
+    .product-info {
+        display: flex;
+        flex-direction: column;
+        width: 60%;
 
-        .product-info > span {
-            margin-bottom: 10px;
-        }
+    }
 
-        .product-info > span:hover {
-            color: var(--color-point-1);
-        }
+    .product-info > span {
+        margin-bottom: 10px;
+    }
 
-        .order {
-            color: var(--color-point-2);
-            boder: 1px;
-        }
+    .product-info > span:hover {
+        color: var(--color-point-1);
+    }
 
-        .order-price {
-            margin-left: 10%;
-        }
+    .order {
+        color: var(--color-point-2);
+        boder: 1px;
+    }
 
-        button {
-            width: 105px;
-            height: 30px;
+    .order-price {
+        margin-left: 10%;
+    }
 
-            background: white;
-            color: var(--color-point-1);
+    button {
+        width: 105px;
+        height: 30px;
 
-            border: 1px ridge var(--color-point-1);
-            border-radius: 5px;
+        background: white;
+        color: var(--color-point-1);
 
-            margin-right: 5%;
-        }
+        border: 1px ridge var(--color-point-1);
+        border-radius: 5px;
 
-        button:hover {
-            background: var(--color-point-4);
-        }
+        margin-right: 5%;
+    }
 
-        .login {
-            display: flex;
-            height: 30px;
-            width: 100px;
-            justify-content: center;
-            align-items: center;
-            font-family: var(--font-point);
-            margin-top: 3px;
-        }
+    button:hover {
+        background: var(--color-point-4);
+    }
 
-        .header {
-            display: flex;
-            justify-content: flex-end;
-            margin-top: 10px;
-        }
+    .login {
+        display: flex;
+        height: 30px;
+        width: 100px;
+        justify-content: center;
+        align-items: center;
+        font-family: var(--font-point);
+        margin-top: 3px;
+    }
 
-        a {
-            text-decoration: none;
-            color: black;
-        }
+    .header {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 20px;
+        margin-bottom: 10px;
+    }
 
-        a:visited {
-            text-decoration: none;
-        }
+    a {
+        text-decoration: none;
+        color: black;
+    }
 
-        a:hover {
-            text-decoration: none;
-        }
+    a:visited {
+        text-decoration: none;
+    }
 
-        a:focus {
-            text-decoration: none;
-        }
+    a:hover {
+        text-decoration: none;
+    }
 
-        a:hover, a:active {
-            text-decoration: none;
-        }
+    a:focus {
+        text-decoration: none;
+    }
 
-    </style>
-    <script>
-        const origin = "http://43.200.75.79:8080/api/";
+    a:hover, a:active {
+        text-decoration: none;
+    }
 
-        $(document).ready(function set() {
-            loginbtnTextChange();
-            $.ajax({
-                type: "GET",
-                headers: {'authorization': $.cookie('auth')},
-                url: origin + "order/list",
-                data: {},
-                success: function (response) {
-                    let orderList = response.data;
-                    for (let i = 0; i < orderList.length; i++) {
-                        let orderId = orderList[i].orderId;
-                        let orderDate = orderList[i].orderDate.split("T")[0].replaceAll("-", ".")
-                        let productId = orderList[i].productId;
-                        let productName = orderList[i].productName;
-                        let img = orderList[i].img;
-                        let productPrice = orderList[i].productPrice.toLocaleString();
-                        let quantity = orderList[i].quantity.toLocaleString();
-                        let totalPrice = orderList[i].totalPrice.toLocaleString();
+</style>
+<script>
+    const origin = "https://www.hanbange.shop/api/";
 
-                        let html = `<div class="order-box">
+    $(document).ready(function set() {
+        loginbtnTextChange();
+        $.ajax({
+            type: "GET",
+            headers: {'authorization': $.cookie('auth')},
+            url: origin + "order/list",
+            data: {},
+            success: function (response) {
+                let orderList = response.data;
+                if (orderList.length == 0) {
+                    let html = `<p class="desc"> 주문내역 존재하지 않습니다. </p>`
+                    $(".order-list-box").append(html)
+
+                }
+                for (let i = 0; i < orderList.length; i++) {
+                    let orderId = orderList[i].orderId;
+                    let orderDate = orderList[i].orderDate.split("T")[0].replaceAll("-", ".")
+                    let productId = orderList[i].productId;
+                    let productName = orderList[i].productName;
+                    let img = orderList[i].img;
+                    let productPrice = orderList[i].productPrice.toLocaleString();
+                    let quantity = orderList[i].quantity.toLocaleString();
+                    let totalPrice = orderList[i].totalPrice.toLocaleString();
+
+                    let html = `<div class="order-box">
                                     <div class="date-box">${orderDate} 주문</div>
                                         <div class="product-detail-box">
                                              <img src=${img}>
@@ -241,57 +265,59 @@
                                 </div>`
 
 
-                        $(".order-list-box").append(html);
-                    }
-                },
-                error: function (response) {
-                    alert(response.responseJSON.msg);
+                    $(".order-list-box").append(html);
                 }
-            })
+            },
+            error: function (response) {
+                alert(response.responseJSON.msg);
+            }
         })
+    })
 
-        function orderDelete(orderId) {
-            $.ajax({
-                type: "DELETE",
-                url: origin + "order?orderId=" + orderId,
-                headers: {'authorization': $.cookie('auth')},
-                data: {},
-                success: function (response) {
-                    alert(response.msg);
-                    window.location.reload();
-                }
-            })
-        }
-
-        function moveProductDetails(productId) {
-            location.href = 'product-detail.html?product_id=' + productId;
-        }
-
-        function loginbtnTextChange() {
-            let btn = document.querySelector(".login");
-            if ($.cookie('auth') != null) {
-                btn.innerHTML= "로그아웃";
+    function orderDelete(orderId) {
+        $.ajax({
+            type: "DELETE",
+            url: origin + "order?orderId=" + orderId,
+            headers: {'authorization': $.cookie('auth')},
+            data: {},
+            success: function (response) {
+                alert(response.msg);
+                window.location.reload();
             }
+        })
+    }
+
+    function moveProductDetails(productId) {
+        location.href = 'product-detail.html?product_id=' + productId;
+    }
+
+    function loginbtnTextChange() {
+        let btn = document.querySelector(".login");
+        if ($.cookie('auth') != null) {
+            btn.innerHTML = "로그아웃";
         }
+    }
 
-        function loginAndlogout() {
-            let btn = document.querySelector(".login");
+    deleteCookie = function(name) {
+        document.cookie = name + '=; expires=Thu, 01 Jan 1999 00:00:10 GMT;';
+    }
 
-            if (btn.innerHTML == "로그인") {
-                location.href = "login.html";
-            } else if(btn.innerHTML == "로그아웃") {
-                location.href = "login.html";
-                $.removeCookie('auth', { path: '/' });
-                location.href='index.html'
-            }
+    function loginAndlogout() {
+        let btn = document.querySelector(".login");
+
+        if (btn.innerHTML == "로그인") {
+            location.href = "login.html";
+        } else if (btn.innerHTML == "로그아웃") {
+            deleteCookie('auth');
+            alert("로그아웃 성공!")
+            location.href = 'index.html'
         }
+    }
 
-
-        function goToMain() {
-            location.href='index.html'
-        }
-    </script>
-</head>
+    function goToMain() {
+        location.href = 'index.html'
+    }
+</script>
 <body>
 <div class="header">
     <div class="login" onclick="loginAndlogout()">로그인</div>
