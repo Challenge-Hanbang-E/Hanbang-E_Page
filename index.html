@@ -119,6 +119,7 @@
     .product:hover {
         transform: scale(1.1);
     }
+
     .productImg {
         height: 180px;
         width: 300px;
@@ -276,6 +277,9 @@
                                     <div class="productPrice">${productPrice}원</div>
                                 </div>`
                     $(".productSearched").append(html);
+                    $(".rankResult").empty();
+                    $(".rankingText").empty();
+
                 }
 
                 if (!hasNextPage) {
@@ -283,7 +287,7 @@
                 }
             },
             error: function (response) {
-              alert(response.responseJSON.msg);
+                alert(response.responseJSON.msg);
             }
         })
     }
@@ -304,7 +308,7 @@
         }
     }
 
-    deleteCookie = function(name) {
+    deleteCookie = function (name) {
         document.cookie = name + '=; expires=Thu, 01 Jan 1999 00:00:10 GMT;';
     }
 
@@ -320,8 +324,40 @@
         }
     }
 
+    $(document).ready(function () {
+        rankingList();
+
+    });
+
+    function rankingList() {
+
+        $.ajax({
+            type: "GET",
+            url: origin + 'rankingList',
+            data: {},
+            success: function (response) {
+                let productList = response;
+                for (let i = 0; i < 10; i++) {
+                    let productId = productList[i]['product']['productId'];
+                    let rankingNum = productList[i].id;
+                    let productName = productList[i].product.productName;
+                    let productImg = productList[i].product.img;
+                    let price = productList[i].product.price;
+                    let html = `<div class="rank" onclick="moveProductDetails(${productId})">
+                                    <div class="rankNum">${rankingNum}</div>
+                                    <div><img class="rankImg" src="${productImg}" alt=""></div>
+                                    <div class="rankName">${productName}</div>
+                                    <div class="rankPrice">${price}원</div>
+                                </div>`
+                    $(".rankResult").append(html);
+                }
+            },
+        })
+    }
+
 </script>
 <body>
+
 <div class="header">
     <div class="login" onclick="loginAndlogout()">로그인</div>
     <div onclick="orderList()">
@@ -329,7 +365,8 @@
     </div>
 </div>
 <div class="logo">
-    <img class="logoImg" onclick="productEmpty()" src="./static/img/logo.png"></div>
+    <img class="logoImg" onclick="productEmpty()" src="./static/img/logo.png">
+</div>
 <form class="wrap">
     <input class="search-box" type="text" placeholder="상품명을 입력해주세요.">
     <button class="search-button" onclick="changeWindow()">검색</button>
@@ -343,6 +380,8 @@
     <div class="productSearched">
     </div>
 </div>
+<h1 class="rankingText">오늘의 베스트 상품 ! !</h1>
+<div class="rankResult"></div>
 <div class="result"></div>
 </body>
 </html>
